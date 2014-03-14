@@ -1,14 +1,12 @@
 
 # Counter
 
-  Counter component.
-
-  ![js apple style countdown counter component](http://f.cl.ly/items/2z262b1p0o2O08381N25/Screen%20Shot%202012-08-12%20at%205.42.56%20PM.png)
+  Counter component for more flexible control on it's layout and design than [original](https://github.com/component/counter).
 
 ## Installation
 
 ```
-$ component install component/counter
+$ component install uniba/counter-component
 ```
 
    ... finish me ...
