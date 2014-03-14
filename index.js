@@ -15,14 +15,10 @@ module.exports = Counter;
 /**
  * Initialize a new `Counter`.
  *
- * @param {Number} interval
- * @param {Number} skip
  * @api public
  */
 
-function Counter(interval, skip) {
-  this.interval = interval || 50;
-  this.skip = parseInt(skip, 10) || 1;
+function Counter() {
   this.el = domify('<div class="counter"></div>');
   this._digits = [];
   this.n = 0;
@@ -99,38 +95,6 @@ Counter.prototype.updateDigit = function(i, val) {
 Counter.prototype.render = function(el, val) {
   el.textContent = val;
   el.className = el.className.replace(/value-[0-9]/, 'value-' + val);
-};
-
-/**
-  * Dynamically update values to `to`.
-  *
-  * @param {Number} to
-  * @param {Function} cb
-  * @return {Counter}
-  * @api public
-  */
-
-Counter.prototype.reelTo = function(to, cb) {
-  var that = this;
-  var n = this.n + this.skip;
-  cb = cb || function() {};
-  // stop existing loop
-  if (this.loop) {
-    clearInterval(this.loop);
-    cb();
-  }
-  this.update(n);
-  this.loop = setInterval(function() {
-    n = that.n + that.skip;
-    if (n > to) n = to;
-    that.update(n);
-    if (that.n === to) {
-      clearInterval(that.loop);
-      cb();
-    }
-  }, this.interval);
-
-  return this;
 };
 
 /**
