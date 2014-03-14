@@ -1,9 +1,10 @@
+
 /**
  * Module dependencies.
  */
 
-var domify = require('domify')
-  , digit = require('./digit');
+var domify = require('domify');
+var digit = require('./digit');
 
 /**
  * Expose `Counter`.
@@ -32,7 +33,7 @@ function Counter() {
  * @api public
  */
 
-Counter.prototype.digits = function(n){
+Counter.prototype.digits = function(n) {
   this.total = n;
   this.ensureDigits(n);
   return this;
@@ -44,7 +45,7 @@ Counter.prototype.digits = function(n){
  * @api private
  */
 
-Counter.prototype.addDigit = function(){
+Counter.prototype.addDigit = function() {
   var el = domify(digit);
   this._digits.push(el);
   this.el.appendChild(el);
@@ -57,7 +58,7 @@ Counter.prototype.addDigit = function(){
  * @api private
  */
 
-Counter.prototype.ensureDigits = function(n){
+Counter.prototype.ensureDigits = function(n) {
   while (this._digits.length < n) {
     this.addDigit();
   }
@@ -96,7 +97,7 @@ Counter.prototype.updateDigit = function(i, val){
  * @api public
  */
 
-Counter.prototype.update = function(n){
+Counter.prototype.update = function(n) {
   this.n = n;
   var str = n.toString();
   var len = str.length;
