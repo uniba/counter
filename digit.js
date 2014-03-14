@@ -1,1 +1,1 @@
-module.exports = '<div class="counter-digit">\n  <div class="counter-next"><span>0</span></div>\n  <div class="counter-top"><span>0</span></div>\n  <div class="counter-bottom"><span>0</span></div>\n</div>';
+module.exports = '<div class="counter-digit value-0">\n</div>\n';
