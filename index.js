@@ -15,10 +15,14 @@ module.exports = Counter;
 /**
  * Initialize a new `Counter`.
  *
+ * @param {Number} interval
+ * @param {Number} skip
  * @api public
  */
 
-function Counter() {
+function Counter(interval, skip) {
+  this.interval = interval || 50;
+  this.skip = parseInt(skip, 10) || 1;
   this.el = domify('<div class="counter"></div>');
   this._digits = [];
   this.n = 0;
@@ -49,6 +53,8 @@ Counter.prototype.addDigit = function() {
   var el = domify(digit);
   this._digits.push(el);
   this.el.appendChild(el);
+  this.render(el, 0);
+  el.className += ' digit-' + this._digits.length;
 };
 
 /**
@@ -72,21 +78,59 @@ Counter.prototype.ensureDigits = function(n) {
  * @api private
  */
 
-Counter.prototype.updateDigit = function(i, val){
+Counter.prototype.updateDigit = function(i, val) {
   var el = this._digits[i];
-  var n = parseInt(val, 10) + 1;
-  if (n > 9) n = 0;
+  var match = el.className.match(/value-([0-9])/);
+  var from;
+  if (!match) return;
+  if (val === match[1]) return;
+  this.render(el, val);
+};
 
-  var curr = el.querySelector('.counter-top span').textContent;
-  el.querySelector('.counter-next span').textContent = n;
-  el.querySelector('.counter-top span').textContent = val;
-  el.querySelector('.counter-bottom span').textContent = val;
+/**
+  * Render value.
+  *
+  * @param {Element} el
+  * @param {String} val
+  * @return {Counter}
+  * @api private
+  */
 
-  if (val == curr) return;
-  el.classList.add('flip');
-  setTimeout(function(){
-    el.classList.remove('flip');
-  }, 200);
+Counter.prototype.render = function(el, val) {
+  el.textContent = val;
+  el.className = el.className.replace(/value-[0-9]/, 'value-' + val);
+};
+
+/**
+  * Dynamically update values to `to`.
+  *
+  * @param {Number} to
+  * @param {Function} cb
+  * @return {Counter}
+  * @api public
+  */
+
+Counter.prototype.reelTo = function(to, cb) {
+  var that = this;
+  var n = this.n + this.skip;
+  cb = cb || function() {};
+  // stop existing loop
+  if (this.loop) {
+    clearInterval(this.loop);
+    cb();
+  }
+  this.update(n);
+  this.loop = setInterval(function() {
+    n = that.n + that.skip;
+    if (n > to) n = to;
+    that.update(n);
+    if (that.n === to) {
+      clearInterval(that.loop);
+      cb();
+    }
+  }, this.interval);
+
+  return this;
 };
 
 /**
