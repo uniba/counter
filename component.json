@@ -1,7 +1,7 @@
 {
   "name": "counter",
-  "description": "Apple style countdown thingy",
-  "version": "0.0.1",
+  "description": "counter derived from component/counter",
+  "version": "0.0.2",
   "keywords": [
     "apple",
     "counter",
